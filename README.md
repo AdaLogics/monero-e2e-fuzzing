@@ -28,8 +28,35 @@ python3 e2e-testing/e2e.py \
   --oss-fuzz ./oss-fuzz/ \
   --debug --round 1000 \
   --proj monero \
-  --workdir ./result
+  --workdir ./result1
 ```
+
+
+Following the exeuction of above, you will see output related to covergae report genreation:
+
+```sh
+Cloning into '/src/monero/monero/external/supercop'...
+Submodule path 'external/gtest': checked out 'b514bdc898e2951020cbdca1304b75f5950d1f59'
+Submodule path 'external/miniupnp': checked out '544e6fcc73c5ad9af48a8985c94f0f1d742ef2e0'
+Submodule path 'external/randomx': checked out '102f8acf90a7649ada410de5499a7ec62e49e1da'
+Submodule path 'external/rapidjson': checked out '129d19ba7f496df5e33658527a7158c79b99c21c'
+Submodule path 'external/supercop': checked out '633500ad8c8759995049ccd022107d1fa8a1bbc9'
+error: /src/monero/monero/build2/generated_include/crypto/wallet/ops.h: No such file or directory
+warning: The file '/src/monero/monero/build2/generated_include/crypto/wallet/ops.h' isn't covered.
+error: /src/monero/monero/build2/translations/translation_files.h: No such file or directory
+warning: The file '/src/monero/monero/build2/translations/translation_files.h' isn't covered.
+Coverage report available at: /home/user/code/monero-e2e-fuzzing/result1/coverage
+```
+
+At this point, you can launch a webserver in the reported directory:
+
+```
+python3 -m http.server 8013 --directory /home/user/code/monero-e2e-fuzzing/result1/coverage
+```
+
+Navigating to `http://localhost:8013/` in your local browser, you will then see a coverage report, e.g:
+
+<img width="1384" height="285" alt="Screenshot from 2025-11-16 13-21-19" src="https://github.com/user-attachments/assets/78f69ae8-5080-4e5b-9934-db42498fb001" />
 
 
 ## Monerod server log
