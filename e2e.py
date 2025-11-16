@@ -98,7 +98,7 @@ def build_end_to_end_setup(ossfuzzdir: str, workdir: str, proj: str) -> str:
 def generate_coverage_html_report(workdir) -> str:
     """Run llvm-cov to generate HTML coverage report. This done by
     running coverage collection from inside the OSS-Fuzz docker build
-    image. As such, the monero-rpc docker container must be available."""
+    image. As such, the monero docker container must be available."""
     workdir = os.path.abspath(workdir)
     coverage_dir = os.path.join(workdir, 'coverage')
     os.makedirs(coverage_dir, exist_ok=True)
@@ -124,7 +124,7 @@ def generate_coverage_html_report(workdir) -> str:
     # Run coverage generation in docker image
     command = [
         'docker', 'run', '--rm', '-it', '-v', f'{workdir}:/data',
-        'gcr.io/oss-fuzz/monero-rpc', 'bash', '-c', script
+        'gcr.io/oss-fuzz/monero', 'bash', '-c', script
     ]
 
     subprocess.check_call(command)
@@ -212,14 +212,14 @@ def parse_args():
     """CLI interface for the script."""
     # Arguments
     parser = argparse.ArgumentParser(
-        description='E2e for manual fuzzing of monero-rpc project')
+        description='E2e for manual fuzzing of monero project')
     parser.add_argument('--oss-fuzz', required=True, help='OSS-Fuzz directory')
     parser.add_argument(
         '--workdir',
         default='./work',
         help='Directory to copy final outputs (default: ./work)')
     parser.add_argument('--proj',
-                        default='monero-rpc',
+                        default='monero',
                         help='Project name used for the monerod build')
     parser.add_argument('--round',
                         type=int,
